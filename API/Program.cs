@@ -1,5 +1,7 @@
 using Api.Commands.Handlers;
 using Api.Commands.Requests;
+using API.Queries.Handlers;
+using API.Queries.Requests;
 using API.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -19,5 +21,16 @@ app.MapPost("/products", (CreateProductRequest createProductRequest) =>
 })
 .WithName("Products")
 .WithOpenApi();
+
+app.MapGet("/products/id/{id}", (Guid id) =>
+{
+    GetProductByIdHandler handler = new();
+    GetProductByIdRequest getProductByIdRequest = new(id);
+    var response = handler.Handle(getProductByIdRequest, productRepository);
+    return Results.Ok(response);
+})
+.WithName("GetProductById")
+.WithOpenApi();
+
 
 app.Run();

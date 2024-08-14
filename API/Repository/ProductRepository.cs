@@ -13,5 +13,10 @@ namespace API.Repository
             return product;
         }
 
+        public Product? GetById(Guid id) {
+            return products.Where(p => p.Id == id).FirstOrDefault();
+        }
+
+
     }
 }
